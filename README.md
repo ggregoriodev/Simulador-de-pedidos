@@ -1,22 +1,81 @@
-# Simulador de Pedidos - Microservices
+# 📦 Simulador de Pedidos - Microservices
 
-Projeto em desenvolvimento para simular um sistema de pedidos utilizando arquitetura de microsserviços.
+Sistema de simulação e gerenciamento de pedidos desenvolvido com arquitetura de microsserviços.
 
-> **Status:** Em construção
+## 🚀 Objetivo do Projeto
 
-## Sobre o projeto
+Este projeto foi criado com o objetivo de estudar e aplicar conceitos modernos de desenvolvimento back-end, incluindo:
 
-Este projeto tem como objetivo evoluir um sistema de pedidos para uma arquitetura orientada a eventos, separando responsabilidades entre serviços independentes.
+* Arquitetura de Microsserviços
+* APIs REST
+* Comunicação entre serviços
+* Docker
+* Mensageria
+* Processamento assíncrono
 
-Atualmente, o projeto está sendo estruturado com os seguintes microsserviços:
+## 🛠️ Tecnologias Utilizadas
 
-- **order-service**: responsável pelo gerenciamento dos pedidos.
-- **notification-service**: responsável por consumir eventos de pedidos e futuramente enviar notificações.
+* Java
+* Spring Boot
+* Maven
+* Docker
+* MySQL
+* RabbitMQ
+* Git/GitHub
 
-## Arquitetura planejada
+## ⚡ Funcionalidades
 
-A ideia principal é que o `order-service` publique eventos relacionados aos pedidos em uma fila usando **RabbitMQ**.
+* Criação de pedidos
+* Atualização de status
+* Comunicação entre microsserviços
+* Estrutura preparada para escalabilidade
 
-O `notification-service` será responsável por consumir esses eventos e executar ações de notificação.
+## 🔄 Em Desenvolvimento
 
-Fluxo planejado:
+Atualmente estou desenvolvendo a parte de notificações do sistema.
+
+A próxima evolução do projeto será:
+
+* 📧 Envio automático de e-mails
+* 📨 Integração com RabbitMQ
+* 🔔 Sistema de eventos para atualização de pedidos
+* ⚡ Comunicação assíncrona entre microsserviços
+
+A ideia é que, sempre que um pedido for atualizado, um evento seja enviado pelo RabbitMQ e o serviço de notificações processe esse evento para enviar um e-mail automaticamente ao usuário.
+
+## ▶️ Como Executar
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/ggregoriodev/Simulador-de-pedidos.git
+```
+
+Entre na pasta:
+
+```bash
+cd Simulador-de-pedidos
+```
+
+Execute os serviços:
+
+```bash
+docker-compose up
+```
+
+## 📚 Objetivos de Estudo
+
+Esse projeto também serve como laboratório para aprofundamento em:
+
+* Microsserviços
+* RabbitMQ
+* Arquitetura orientada a eventos
+* Docker
+* Comunicação entre serviços
+* Escalabilidade de sistemas
+
+## 👨‍💻 Autor
+
+Desenvolvido por Guilherme Gregorio.
+
+GitHub: https://github.com/ggregoriodev
