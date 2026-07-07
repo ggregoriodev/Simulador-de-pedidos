@@ -27,7 +27,7 @@ public class PedidoEntity {
 
     private LocalDateTime createdAt;
 
-    protected PedidoEntity() {
+    public PedidoEntity() {
     }
 
     public PedidoEntity(String produto, PedidoStatus status) {

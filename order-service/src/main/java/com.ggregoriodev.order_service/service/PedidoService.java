@@ -1,8 +1,10 @@
 package com.ggregoriodev.order_service.service;
 
+import com.ggregoriodev.order_service.dto.PedidoDto;
 import com.ggregoriodev.order_service.entity.PedidoEntity;
 import com.ggregoriodev.order_service.entity.PedidoStatus;
 import com.ggregoriodev.order_service.exception.EventNotFoundException;
+import com.ggregoriodev.order_service.publisher.RabbitMQProducer;
 import com.ggregoriodev.order_service.repository.PedidoRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,20 +17,31 @@ import java.util.List;
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
+    private final RabbitMQProducer rabbitMQProducer;
 
-    public PedidoService(PedidoRepository pedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, RabbitMQProducer rabbitMQProducer) {
         this.pedidoRepository = pedidoRepository;
+        this.rabbitMQProducer = rabbitMQProducer;
     }
 
-    public PedidoEntity criarPedido(PedidoEntity pedido) {
-        pedido.setStatus(PedidoStatus.CRIADO);
-        pedido.setCreatedAt(LocalDateTime.now());
+    public PedidoDto criarPedido(PedidoDto pedido) {
+        PedidoEntity pedidoEntity = new PedidoEntity();
+        pedidoEntity.setProduto(pedido.getProduto());
+        pedidoEntity.setStatus(PedidoStatus.CRIADO);
+        pedidoEntity.setCreatedAt(LocalDateTime.now());
 
-        return pedidoRepository.save(pedido);
+        PedidoEntity pedidoSalvo = pedidoRepository.save(pedidoEntity);
+
+        rabbitMQProducer.enviamensagem("pedido criado");
+
+        return new PedidoDto(pedidoSalvo);
     }
 
-    public List<PedidoEntity> listarPedidos() {
-        return pedidoRepository.findAll();
+    public List<PedidoDto> listarPedidos() {
+        return pedidoRepository.findAll()
+                .stream()
+                .map(PedidoDto::new)
+                .toList();
     }
 
     public void deletarPedido(Long id) {
@@ -38,18 +51,22 @@ public class PedidoService {
         pedidoRepository.deleteById(pedido.getId());
     }
 
-    public PedidoEntity atualizarPedido(Long id, PedidoEntity pedidoAtualizado) {
+    public PedidoDto atualizarPedido(Long id, PedidoDto pedidoAtualizado) {
         PedidoEntity pedido = pedidoRepository.findById(id)
                 .orElseThrow(EventNotFoundException::new);
 
         pedido.setProduto(pedidoAtualizado.getProduto());
 
-        return pedidoRepository.save(pedido);
+        PedidoEntity pedidoSalvo = pedidoRepository.save(pedido);
+
+        return new PedidoDto(pedidoSalvo);
     }
 
-    public PedidoEntity buscarPedidoPorId(Long id) {
-        return pedidoRepository.findById(id)
+    public PedidoDto buscarPedidoPorId(Long id) {
+        PedidoEntity pedido = pedidoRepository.findById(id)
                 .orElseThrow(EventNotFoundException::new);
+
+        return new PedidoDto(pedido);
     }
 
     @Scheduled(fixedRate = 30000)

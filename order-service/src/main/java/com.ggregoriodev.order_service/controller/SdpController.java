@@ -1,5 +1,6 @@
 package com.ggregoriodev.order_service.controller;
 
+import com.ggregoriodev.order_service.dto.PedidoDto;
 import com.ggregoriodev.order_service.entity.PedidoEntity;
 import com.ggregoriodev.order_service.service.PedidoService;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,18 @@ public class SdpController {
     }
 
     @GetMapping
-    public List<PedidoEntity> listarPedidos() {
+    public List<PedidoDto> listarPedidos() {
 
         return pedidoService.listarPedidos();
     }
 
     @GetMapping("/{id}")
-    public PedidoEntity buscarPedidoPorId(@PathVariable Long id) {
+    public PedidoDto buscarPedidoPorId(@PathVariable Long id) {
         return pedidoService.buscarPedidoPorId(id);
     }
 
     @PostMapping
-    public PedidoEntity adicionarPedido(@RequestBody PedidoEntity pedido) {
+    public PedidoDto adicionarPedido(@RequestBody PedidoDto pedido) {
         return pedidoService.criarPedido(pedido);
     }
 
@@ -39,7 +40,7 @@ public class SdpController {
     }
 
     @PutMapping("/{id}")
-    public PedidoEntity atualizarPedido(@PathVariable Long id, @RequestBody PedidoEntity pedido) {
+    public PedidoDto atualizarPedido(@PathVariable Long id, @RequestBody PedidoDto pedido) {
         return pedidoService.atualizarPedido(id, pedido);
     }
 }
