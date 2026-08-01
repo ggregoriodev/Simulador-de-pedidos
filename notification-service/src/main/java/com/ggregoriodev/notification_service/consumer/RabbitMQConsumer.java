@@ -29,7 +29,7 @@ public class RabbitMQConsumer {
         try {
             SimpleMailMessage email = new SimpleMailMessage();
             email.setFrom(remetente);
-            email.setTo("guilhermegregoriodossantos@gmail.com");
+            email.setTo("");
             email.setSubject("Novo pedido criado");
             email.setText(message);
 
